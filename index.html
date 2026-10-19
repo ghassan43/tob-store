@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر طوب 60B - استلام أكواد الذكاء الاصطناعي (AI)</title>
+    <title>متجر طوب 60B - استلام كود الذكاء الاصطناعي (AI)</title>
     <!-- مكتبة الأيقونات والخطوط -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
         }
 
         .container {
-            background: rgba(18, 18, 18, 0.85);
+            background: rgba(18, 18, 18, 0.9);
             backdrop-filter: blur(10px);
             border: 2px solid #ff007f;
             box-shadow: 0 0 25px rgba(255, 0, 127, 0.3);
@@ -61,49 +61,45 @@
             margin-bottom: 25px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            color: #ff007f;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
+        /* صندوق معلومات الحساب الثابت فوق الزر */
+        .account-info-box {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid #333;
-            border-radius: 10px;
-            color: #fff;
-            font-size: 15px;
-            outline: none;
-            transition: 0.3s;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 20px;
+            text-align: right;
+            display: none;
         }
 
-        input:focus {
-            border-color: #ff007f;
-            box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+        .account-info-box p {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 8px;
+            word-break: break-all;
+        }
+
+        .account-info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-info-box span {
+            color: #00ffcc;
+            font-weight: 700;
         }
 
         .btn-submit {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             background: linear-gradient(135deg, #ff007f, #cc0066);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: #fff;
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-            margin-top: 10px;
         }
 
         .btn-submit:hover {
@@ -115,9 +111,9 @@
         /* صندوق إظهار الكود والنتيجة */
         #result-box {
             display: none;
-            margin-top: 25px;
+            margin-top: 20px;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             border: 2px dashed #00ffcc;
             border-radius: 15px;
             animation: fadeIn 0.5s ease-in-out;
@@ -130,7 +126,7 @@
         }
 
         .code-display {
-            font-size: 32px;
+            font-size: 34px;
             font-weight: 900;
             color: #00ffcc;
             letter-spacing: 4px;
@@ -147,9 +143,13 @@
 
         .error-message {
             color: #ff4d4d;
-            font-size: 13px;
+            font-size: 14px;
             margin-top: 15px;
             display: none;
+            background: rgba(255, 77, 77, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 77, 77, 0.3);
         }
 
         .footer-note {
@@ -158,29 +158,24 @@
             color: #666;
         }
 
-      /* زر الواتساب العائم */
-.whatsapp-float {
-    position: fixed;
-    bottom: 25px;
-    left: 25px;
-    background-color: #25d366;
-    color: #fff;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-    z-index: 100;
-    transition: 0.3s;
-}
-
-.whatsapp-float:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
-}
+        /* زر الواتساب العائم */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background-color: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            transition: 0.3s;
+        }
 
         .whatsapp-float:hover {
             transform: scale(1.1);
@@ -200,28 +195,22 @@
             <i class="fa-solid fa-robot"></i>
         </div>
         <h1>متجر طوب 60B</h1>
-        <p class="subtitle">استلام كود اشتراك الذكاء الاصطناعي (AI) الفوري</p>
+        <p class="subtitle">بيانات حساب الذكاء الاصطناعي (AI)</p>
 
-        <!-- نموذج الإدخال وزر الاستلام -->
-        <form id="authForm">
-            <div class="form-group" id="orderGroup">
-                <label for="orderId"><i class="fa-solid fa-hashtag"></i> رقم الطلب (Reference ID)</label>
-                <input type="text" id="orderId" placeholder="أدخل رقم الطلب هنا..." required>
-            </div>
+        <!-- صندوق معلومات الحساب الثابت (يظهر تلقائياً فوق الزر) -->
+        <div class="account-info-box" id="accountInfoBox">
+            <p><i class="fa-solid fa-envelope"></i> البريد: <span id="displayEmail">-</span></p>
+            <p><i class="fa-solid fa-lock"></i> كلمة المرور: <span id="displayPassword">-</span></p>
+        </div>
 
-            <div class="form-group" id="usernameGroup">
-                <label for="username"><i class="fa-solid fa-user"></i> اسم المستخدم / البريد الإلكتروني</label>
-                <input type="text" id="username" placeholder="اسم المستخدم في المنصة..." required>
-            </div>
-
-            <button type="submit" class="btn-submit">
-                <span><i class="fa-solid fa-bolt"></i></span> الحصول على كود الـ AI
-            </button>
-        </form>
+        <!-- زر استلام الرمز المباشر وتحت معلومات الحساب -->
+        <button id="revealBtn" class="btn-submit">
+            <span><i class="fa-solid fa-bolt"></i></span> استلام الرمز المؤقت الآن
+        </button>
 
         <!-- صندوق عرض الكود بعد الضغط -->
         <div id="result-box">
-            <div class="code-title">رمز التحقق المؤقت الخاص بك:</div>
+            <div class="code-title">رمز التحقق المؤقت (OTP):</div>
             <div class="code-display" id="codeDisplay">------</div>
             <div class="attempts-display" id="attemptsDisplay">المحاولات المتبقية: 3</div>
         </div>
@@ -239,58 +228,56 @@
     </a>
 
     <script>
-        let currentOrderId = '';
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order');
+        const errorBox = document.getElementById('errorMessage');
+        const revealBtn = document.getElementById('revealBtn');
+        const accountInfoBox = document.getElementById('accountInfoBox');
 
-        // قراءة رقم الطلب من الرابط تلقائياً فور فتح الصفحة
+        // جلب معلومات الحساب الثابتة عند فتح الرابط
         window.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const orderId = urlParams.get('order');
+            if (!orderId) {
+                errorBox.textContent = 'رقم الطلب غير موجود في الرابط.';
+                errorBox.style.display = 'block';
+                revealBtn.style.display = 'none';
+                return;
+            }
 
-            if (orderId) {
-                currentOrderId = orderId;
+            try {
+                const response = await fetch('/api/get-order-info', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId })
+                });
 
-                try {
-                    const response = await fetch('/api/get-order-info', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ orderId })
-                    });
+                const data = await response.json();
 
-                    const data = await response.json();
-
-                    if (response.ok && data.success) {
-                        // إخفاء حقول الإدخال اليدوية لأن الرابط جاهز
-                        document.getElementById('orderGroup').style.display = 'none';
-                        document.getElementById('usernameGroup').style.display = 'none';
-                        
-                        // تعديل زر الاستلام ليكون جاهزاً بضغطة واحدة
-                        const submitBtn = document.querySelector('.btn-submit');
-                        submitBtn.innerHTML = '<span><i class="fa-solid fa-bolt"></i></span> اضغط هنا لاستلام كود الـ AI';
-                    } else {
-                        const errBox = document.getElementById('errorMessage');
-                        errBox.textContent = data.message || 'رقم الطلب غير مسجل.';
-                        errBox.style.display = 'block';
-                    }
-                } catch (err) {
-                    console.log("خطأ في الاتصال بالسيرفر");
+                if (response.ok && data.success) {
+                    // عرض البريد وكلمة المرور في الصندوق فوق الزر مباشرة
+                    document.getElementById('displayEmail').textContent = data.account.email;
+                    document.getElementById('displayPassword').textContent = data.account.password;
+                    accountInfoBox.style.display = 'block';
+                } else {
+                    errorBox.textContent = data.message || 'رقم الطلب غير صحيح.';
+                    errorBox.style.display = 'block';
+                    revealBtn.style.display = 'none';
                 }
+            } catch (err) {
+                errorBox.textContent = 'تعذر الاتصال بالسيرفر.';
+                errorBox.style.display = 'block';
             }
         });
 
-        // عند ضغط العميل على زر الاستلام
-        document.getElementById('authForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const errorBox = document.getElementById('errorMessage');
-            const resultBox = document.getElementById('result-box');
-            const orderIdToUse = currentOrderId || document.getElementById('orderId').value.trim();
-
+        // عند ضغط العميل على زر استلام الرمز
+        revealBtn.addEventListener('click', async () => {
             errorBox.style.display = 'none';
+            const resultBox = document.getElementById('result-box');
 
             try {
                 const response = await fetch('/api/reveal-code', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ orderId: orderIdToUse })
+                    body: JSON.stringify({ orderId })
                 });
 
                 const data = await response.json();
@@ -299,7 +286,7 @@
                     document.getElementById('codeDisplay').textContent = data.code;
                     document.getElementById('attemptsDisplay').textContent = `المحاولات المتبقية: ${data.remainingAttempts}`;
                     resultBox.style.display = 'block';
-                    document.getElementById('authForm').style.display = 'none'; // إخفاء النموذج بعد الاستلام لمنع التكرار
+                    revealBtn.style.display = 'none'; // إخفاء الزر بعد الاستلام
                 } else {
                     errorBox.textContent = data.message || 'حدث خطأ ما.';
                     errorBox.style.display = 'block';
