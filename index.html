@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر طوب - 60B | استلام أكواد الألعاب</title>
+    <!-- استدعاء خط كايو ومكتبة الأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent-pink: #ff2a85;
+            --text-main: #ffffff;
+            --text-secondary: #c0c0c0;
+            --border-color: rgba(255, 42, 133, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #050208;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* حاوية الموقع الرئيسية */
+        .container {
+            width: 100%;
+            max-width: 430px;
+            padding: 28px 22px;
+            background: rgba(12, 6, 18, 0.92);
+            backdrop-filter: blur(16px);
+            border: 2px solid var(--border-color);
+            border-radius: 30px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 42, 133, 0.15);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* الترويسة والشعار */
+        .store-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .store-logo-box {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 12px auto;
+            background: linear-gradient(135deg, #ff2a85, #63002f);
+            border-radius: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 42, 133, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .store-header h1 {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--text-main);
+            line-height: 1.4;
+            margin-bottom: 6px;
+        }
+
+        .store-header h1 span {
+            color: var(--accent-pink);
+        }
+
+        .store-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* شريط المنصات المتحرك يمين ويسار */
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .platforms-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 4px 2px 10px 2px;
+            margin-bottom: 18px;
+            scroll-behavior: smooth;
+        }
+
+        .platforms-container::-webkit-scrollbar {
+            height: 4px;
+        }
+        .platforms-container::-webkit-scrollbar-thumb {
+            background: var(--accent-pink);
+            border-radius: 10px;
+        }
+
+        .platform-card {
+            flex: 0 0 82px;
+            height: 82px;
+            background: rgba(20, 10, 30, 0.95);
+            border: 2px solid #3d1b54;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .platform-card.active {
+            border-color: var(--accent-pink);
+            background: rgba(255, 42, 133, 0.25);
+            box-shadow: 0 0 18px rgba(255, 42, 133, 0.5);
+        }
+
+        .platform-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+            color: var(--text-main);
+        }
+
+        .platform-card.active .platform-icon {
+            color: var(--accent-pink);
+        }
+
+        .platform-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .platform-card.active .platform-name {
+            color: var(--text-main);
+        }
+
+        /* حقول الإدخال */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper span {
+            position: absolute;
+            right: 15px;
+            color: var(--accent-pink);
+            font-size: 16px;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: rgba(15, 7, 22, 0.95);
+            border: 1.5px solid #3d1b54;
+            border-radius: 16px;
+            padding: 13px 45px 13px 15px;
+            color: var(--text-main);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 12px rgba(255, 42, 133, 0.35);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-pink), #e01a70);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 6px;
+            box-shadow: 0 6px 20px rgba(255, 42, 133, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #result-box {
+            display: none;
+            margin-top: 18px;
+            background: rgba(15, 7, 22, 0.98);
+            border: 1.5px solid var(--accent-pink);
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .auth-code {
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: var(--accent-pink);
+            margin: 8px 0;
+            font-family: monospace;
+        }
+
+        .attempts-badge {
+            display: inline-block;
+            background: rgba(255, 42, 133, 0.2);
+            color: var(--accent-pink);
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+
+        .error-message {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff3b30;
+            border: 1px solid rgba(255, 59, 48, 0.4);
+            padding: 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 14px;
+            display: none;
+        }
+
+        .footer-guarantee {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25d366;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            box-shadow: 0 4px 18px rgba(37, 211, 102, 0.5);
+            z-index: 100;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- زر الواتساب العائم -->
+    <a href="https://wa.me/" target="_blank" class="whatsapp-float"><i class="fa-brands fa-whatsapp"></i></a>
+
+    <!-- حاوية الموقع -->
+    <div class="container">
+        <div class="store-header">
+            <div class="store-logo-box"><i class="fa-solid fa-crown"></i></div>
+            <h1>متجر طوب 60B<br><span>استلام أكواد الألعاب فوراً</span></h1>
+            <p>أدخل بيانات طلبك للحصول على الكود الخاص بك بشكل فوري وآمن.</p>
+        </div>
+
+        <!-- شريط المنصات -->
+        <div class="section-title">اختر المنصة</div>
+        <div class="platforms-container">
+            <div class="platform-card active" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-brands fa-steam"></i></div>
+                <div class="platform-name">Steam</div>
+            </div>
+            <div class="platform-card" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="platform-name">Rockstar</div>
+            </div>
+            <div class="platform-card" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-solid fa-cube"></i></div>
+                <div class="platform-name">Ubisoft</div>
+            </div>
+            <div class="platform-card" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-brands fa-playstation"></i></div>
+                <div class="platform-name">PlayStation</div>
+            </div>
+            <div class="platform-card" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-brands fa-xbox"></i></div>
+                <div class="platform-name">Xbox</div>
+            </div>
+            <div class="platform-card" onclick="selectPlatform(this)">
+                <div class="platform-icon"><i class="fa-solid fa-robot"></i></div>
+                <div class="platform-name">AI</div>
+            </div>
+        </div>
+
+        <form id="authForm">
+            <div class="form-group">
+                <label>رقم الطلب (أو Reference ID)</label>
+                <div class="input-wrapper">
+                    <input type="text" id="orderId" class="form-control" placeholder="أدخل رقم الطلب هنا..." required>
+                    <span><i class="fa-solid fa-hashtag"></i></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>اسم المستخدم / البريد الإلكتروني</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" class="form-control" placeholder="اسم المستخدم في المنصة..." required>
+                    <span><i class="fa-solid fa-user"></i></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <span><i class="fa-solid fa-bolt"></i></span> الحصول على الكود
+            </button>
+        </form>
+
+        <div id="errorMessage" class="error-message"></div>
+
+        <div id="result-box">
+            <p style="font-size: 13px; color: var(--text-secondary);">كود التحقق الخاص بك:</p>
+            <div class="auth-code" id="codeDisplay">------</div>
+            <div class="attempts-badge" id="attemptsDisplay">المحاولات المتبقية: 3</div>
+        </div>
+
+        <div class="footer-guarantee">
+            <span><i class="fa-solid fa-shield-halved"></i></span> ضمان 100% وتسليم فوري
+        </div>
+    </div>
+
+    <script>
+        function selectPlatform(element) {
+            document.querySelectorAll('.platform-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            element.classList.add('active');
+            element.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const orderId = document.getElementById('orderId').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const errorBox = document.getElementById('errorMessage');
+            const resultBox = document.getElementById('result-box');
+
+            errorBox.style.display = 'none';
+            resultBox.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/get-auth-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId, username })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    document.getElementById('codeDisplay').textContent = data.code;
+                    document.getElementById('attemptsDisplay').textContent = `المحاولات المتبقية: ${data.remainingAttempts}`;
+                    resultBox.style.display = 'block';
+                } else {
+                    errorBox.textContent = data.message || 'حدث خطأ ما، تأكد من البيانات.';
+                    errorBox.style.display = 'block';
+                }
+            } catch (err) {
+                errorBox.textContent = 'تعذر الاتصال بالسيرفر، تأكد من تشغيله.';
+                errorBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
