@@ -1,76 +1,83 @@
 const express = require('express');
-const speakeasy = require('speakeasy');
 const cors = require('cors');
-
+const speakeasy = require('speakeasy');
 const app = express();
+
 app.use(express.json());
 app.use(cors());
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
 app.use(express.static(__dirname));
-// قاعدة بيانات تجريبية (مؤقتة للتجربة)
-let database = {
-    "orders": {
-        "1001": { 
-            orderId: "1001",
-            username: "player_steam1",
-            secret: "JBSWY3DPEHPK3PXP", // المفتاح السري الخاص بالـ Authenticator للحساب
-            usedCount: 0,
-            maxLimit: 3
-        }
-    }
+
+// قاعدة بيانات الطلبات الـ 20 الخاصة بقسم الذكاء الاصطناعي (AI)
+const ordersDatabase = {
+    "1001": { username: "عميل_AI_1", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1002": { username: "عميل_AI_2", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1003": { username: "عميل_AI_3", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1004": { username: "عميل_AI_4", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1005": { username: "عميل_AI_5", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1006": { username: "عميل_AI_6", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1007": { username: "عميل_AI_7", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1008": { username: "عميل_AI_8", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1009": { username: "عميل_AI_9", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1010": { username: "عميل_AI_10", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1011": { username: "عميل_AI_11", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1012": { username: "عميل_AI_12", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1013": { username: "عميل_AI_13", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1014": { username: "عميل_AI_14", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1015": { username: "عميل_AI_15", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1016": { username: "عميل_AI_16", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1017": { username: "عميل_AI_17", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1018": { username: "عميل_AI_18", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1019": { username: "عميل_AI_19", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 },
+    "1020": { username: "عميل_AI_20", secret: "YSLHT6J25FPQQEPB6EPGTYWZIOEDDBNS", remainingAttempts: 3 }
 };
 
-// نقطة النهاية (API) لاستلام الكود
-app.post('/api/get-auth-code', (req, res) => {
-    const { orderId, username } = req.body;
+// 1. مسار جلب معلومات الطلب عند فتح الرابط (بدون خصم محاولات)
+app.post('/api/get-order-info', (req, res) => {
+    const { orderId } = req.body;
+    const order = ordersDatabase[orderId];
 
-    if (!orderId || !username) {
-        return res.status(400).json({ 
-            success: false, 
-            message: "الرجاء إدخال رقم الطلب واسم المستخدم." 
-        });
+    if (!order) {
+        return res.status(404).json({ success: false, message: 'رقم الطلب غير صحيح أو غير موجود.' });
     }
-
-    const order = database.orders[orderId];
-
-    // التحقق من صحة الطلب واسم المستخدم
-    if (!order || order.username !== username) {
-        return res.status(404).json({ 
-            success: false, 
-            message: "رقم الطلب أو اسم المستخدم غير صحيح." 
-        });
-    }
-
-    // التحقق من شرط الحد الأقصى (3 أكواد)
-    if (order.usedCount >= order.maxLimit) {
-        return res.status(400).json({ 
-            success: false, 
-            message: "عذراً، لقد استنفدت الحد الأقصى المسموح به (3 أكواد). تواصل مع الدعم الفني للمساعدة." 
-        });
-    }
-
-    // زيادة عداد الاستخدام بواقع 1
-    order.usedCount += 1;
-
-    // توليد كود التحقق (TOTP) الحالي المتوافق مع Authenticator
-    const token = speakeasy.totp({
-        secret: order.secret,
-        encoding: 'base32'
-    });
-
-    const remainingAttempts = order.maxLimit - order.usedCount;
 
     res.json({
         success: true,
-        code: token,
-        remainingAttempts: remainingAttempts,
-        message: `تم توليد الكود بنجاح. المحاولات المتبقية: ${remainingAttempts}`
+        username: order.username,
+        remainingAttempts: order.remainingAttempts
     });
 });
 
-const PORT = 3000;
+// 2. مسار إعطاء كود التحقق المؤقت عند ضغط العميل على زر الاستلام
+app.post('/api/reveal-code', (req, res) => {
+    const { orderId } = req.body;
+    const order = ordersDatabase[orderId];
+
+    if (!order) {
+        return res.status(404).json({ success: false, message: 'رقم الطلب غير صحيح.' });
+    }
+
+    if (order.remainingAttempts <= 0) {
+        return res.status(400).json({ success: false, message: 'لقد استنفذت الحد الأقصى للمحاولات المسموحة لهذا الكود.' });
+    }
+
+    // خصم محاولة واحدة
+    order.remainingAttempts -= 1;
+
+    // توليد رمز التحقق المؤقت (OTP) بناءً على مفتاحك السري الحقيقي
+    const currentOtpCode = speakeasy.totp({
+        secret: order.secret,
+        encoding: 'base32',
+        step: 30
+    });
+
+    res.json({
+        success: true,
+        code: currentOtpCode,
+        remainingAttempts: order.remainingAttempts
+    });
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
