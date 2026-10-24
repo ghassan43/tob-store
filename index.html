@@ -158,7 +158,7 @@
             color: #666;
         }
 
-        /* زر الواتساب العائم */
+        /* زر الواتساب العائم برقمك الصحيح 0594651645 */
         .whatsapp-float {
             position: fixed;
             bottom: 25px;
@@ -197,13 +197,13 @@
         <h1>متجر طوب 60B</h1>
         <p class="subtitle">بيانات حساب الذكاء الاصطناعي (AI)</p>
 
-        <!-- صندوق معلومات الحساب الثابت (يظهر تلقائياً فوق الزر) -->
+        <!-- صندوق معلومات الحساب الثابت -->
         <div class="account-info-box" id="accountInfoBox">
             <p><i class="fa-solid fa-envelope"></i> البريد: <span id="displayEmail">-</span></p>
             <p><i class="fa-solid fa-lock"></i> كلمة المرور: <span id="displayPassword">-</span></p>
         </div>
 
-        <!-- زر استلام الرمز المباشر وتحت معلومات الحساب -->
+        <!-- زر استلام الرمز المباشر -->
         <button id="revealBtn" class="btn-submit">
             <span><i class="fa-solid fa-bolt"></i></span> استلام الرمز المؤقت الآن
         </button>
@@ -222,8 +222,8 @@
         </div>
     </div>
 
-    <!-- زر الواتساب العائم مربوط برقمك الشخصي -->
-    <a href="https://wa.me/966508400669" target="_blank" class="whatsapp-float">
+    <!-- زر الواتساب العائم مربوط برقمك الصحيح 0594651645 -->
+    <a href="https://wa.me/966594651645" target="_blank" class="whatsapp-float">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -237,7 +237,7 @@
         // جلب معلومات الحساب الثابتة عند فتح الرابط
         window.addEventListener('DOMContentLoaded', async () => {
             if (!orderId) {
-                errorBox.textContent = 'رقم الطلب غير موجود في الرابط.';
+                errorBox.textContent = 'رابط الطلب غير موجود أو غير صحيح.';
                 errorBox.style.display = 'block';
                 revealBtn.style.display = 'none';
                 return;
@@ -253,12 +253,11 @@
                 const data = await response.json();
 
                 if (response.ok && data.success) {
-                    // عرض البريد وكلمة المرور في الصندوق فوق الزر مباشرة
                     document.getElementById('displayEmail').textContent = data.account.email;
                     document.getElementById('displayPassword').textContent = data.account.password;
                     accountInfoBox.style.display = 'block';
                 } else {
-                    errorBox.textContent = data.message || 'رقم الطلب غير صحيح.';
+                    errorBox.textContent = data.message || 'رابط الطلب غير صحيح.';
                     errorBox.style.display = 'block';
                     revealBtn.style.display = 'none';
                 }
