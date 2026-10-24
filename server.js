@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const speakeasy = require('speakeasy');
 const crypto = require('crypto');
+const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const app = express();
 
@@ -18,17 +19,28 @@ const accountDetails = {
     password: "6OB123123@123"
 };
 
-// إنشاء أو الاتصال بقاعدة بيانات SQLite محلية
-const db = new sqlite3.Database('./database.sqlite', (err) => {
+// حذف ملف القاعدة القديم تلقائياً عند التشغيل لضمان توليد روابط نظيفة جديدة
+const dbFile = './database.sqlite';
+if (fs.existsSync(dbFile)) {
+    try {
+        fs.unlinkSync(dbFile);
+        console.log('تم حذف قاعدة البيانات القديمة بنجاح.');
+    } catch (err) {
+        console.log('تعذر حذف الملف القديم، جاري المتابعة...');
+    }
+}
+
+// إنشاء قاعدة بيانات جديدة
+const db = new sqlite3.Database(dbFile, (err) => {
     if (err) {
         console.error('خطأ في الاتصال بقاعدة البيانات:', err.message);
     } else {
-        console.log('تم الاتصال بقاعدة بيانات SQLite بنجاح.');
+        console.log('تم إنشاء والاتصال بقاعدة بيانات SQLite جديدة بنجاح.');
         initDatabase();
     }
 });
 
-// إنشاء الجدول وتوليد الروابط الـ 20 العشوائية الآمنة لأول مرة فقط
+// إنشاء الجدول وتوليد الروابط الـ 20 العشوائية الآمنة الجديدة
 function initDatabase() {
     db.run(`CREATE TABLE IF NOT EXISTS orders (
         token TEXT PRIMARY KEY,
@@ -38,20 +50,14 @@ function initDatabase() {
         remaining_attempts INTEGER
     )`, (err) => {
         if (!err) {
-            db.get(`SELECT COUNT(*) as count FROM orders`, (err, row) => {
-                if (row.count === 0) {
-                    console.log("=== روابط متجر طوب ستور الآمنة والمحفوظة في قاعدة البيانات ===");
-                    for (let i = 0; i < 20; i++) {
-                        const token = crypto.randomBytes(8).toString('hex');
-                        db.run(`INSERT INTO orders (token, email, password, secret, remaining_attempts) VALUES (?, ?, ?, ?, ?)`,
-                            [token, accountDetails.email, accountDetails.password, mySecretKey, 3]
-                        );
-                        console.log(`رابط ${i + 1}: https://tob-store.onrender.com/?order=${token}`);
-                    }
-                } else {
-                    console.log("روابط قاعدة البيانات موجودة ومحفوظة مسبقاً.");
-                }
-            });
+            console.log("=== روابط متجر طوب ستور الآمنة الجديدة والمحفوظة ===");
+            for (let i = 0; i < 20; i++) {
+                const token = crypto.randomBytes(8).toString('hex');
+                db.run(`INSERT INTO orders (token, email, password, secret, remaining_attempts) VALUES (?, ?, ?, ?, ?)`,
+                    [token, accountDetails.email, accountDetails.password, mySecretKey, 3]
+                );
+                console.log(`رابط ${i + 1}: http://localhost:3000/?order=${token}`);
+            }
         }
     });
 }
